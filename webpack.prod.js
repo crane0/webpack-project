@@ -1,11 +1,13 @@
 // 这是 node.js 的 path 模块
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const optimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const htmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: {
     index: './src/index.js',
-    search1: './src/search.js',
+    search: './src/search.js',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -68,6 +70,33 @@ module.exports = {
   plugins: [
     new MiniCssExtractPlugin({
       filename: '[name]_[contenthash:8].css'
+    }),
+
+    new optimizeCssAssetsPlugin({
+      assetNameRegExp: /\.css$/g,
+      cssProcessor: require('cssnano')
+    }),
+
+    // 1个页面对应1个htmlWebpackPlugin，所以如果有多个，就需要写多个
+    new htmlWebpackPlugin({
+      template: path.join(__dirname, 'src/search.html'),
+      filename: 'search.html',
+      // 对应的 entry 指定的 chunk（包括 css/js），可以理解为这个入口使用到的 css/js
+      chunks: ['search'],
+      // 将 chunk 自动插入
+      inject: true,
+      minify: {
+        html5: true,
+        // 去除空格
+        collapseWhitespace: true,
+        // 不保留换行符
+        preserveLineBreaks: false,
+        // 这2个是压缩一开始就内联在 html 中的 css/js，不是打包生成的 css/js
+        minifyCSS: true,
+        minifyJS: true,
+        // 移除注释
+        removeComments: true
+      }
     })
   ]
 }
