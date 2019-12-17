@@ -1,5 +1,7 @@
 // 这是 node.js 的 path 模块
 const path = require('path')
+// HotModuleReplacementPlugin 是 webpack 内置的插件
+const webpack = require('webpack')
 
 module.exports = {
   entry: {
@@ -10,7 +12,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js'
   },
-  mode: 'production',
+  mode: 'development',
   module: {
     rules: [
       {
@@ -25,10 +27,10 @@ module.exports = {
           'less-loader',
         ]
       },
-      // {
-      //   test: /\.(jpe?g|png|gif|svg)$/i,
-      //   use: 'file-loader'
-      // },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        use: 'file-loader'
+      },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
         use: [
@@ -46,5 +48,12 @@ module.exports = {
         use: 'file-loader'
       }
     ]
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ],
+  devServer: {
+    contentBase: './dist',
+    hot: true
   }
 }
