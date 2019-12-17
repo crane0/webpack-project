@@ -25,6 +25,26 @@ module.exports = {
           'less-loader',
         ]
       },
+      // {
+      //   test: /\.(jpe?g|png|gif|svg)$/i,
+      //   use: 'file-loader'
+      // },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              // 单位：字节
+              limit: 10240
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(woff|woff2|ttf|eot|otf)$/,
+        use: 'file-loader'
+      }
     ]
   }
 }
