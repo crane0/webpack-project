@@ -39,6 +39,7 @@ module.exports = {
           // 'style-loader',
           MiniCssExtractPlugin.loader,
           'css-loader',
+          // 要放在 less 后，否则会报错，无法解析一些 css
           {
             loader: 'postcss-loader',
             options: {
@@ -50,7 +51,17 @@ module.exports = {
               ]
             }
           },
-          'less-loader',
+          // 也要放在 less 后，否则会报错，无法解析一些 css
+          {
+            loader: 'px2rem-loader',
+            options: {
+              // 1rem = 75px
+              remUnit: 75,
+              // px 转换为 rem 时，保留的小数位数
+              remPrecision: 8
+            }
+          },
+          'less-loader'
         ]
       },
       {
