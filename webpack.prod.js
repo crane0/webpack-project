@@ -39,6 +39,17 @@ module.exports = {
           // 'style-loader',
           MiniCssExtractPlugin.loader,
           'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => [
+                require('autoprefixer')({
+                  // 指定 autoprefixer 兼容的版本
+                  overrideBrowserslist: ['last 2 version', '> 1%', 'ios 7']
+                })
+              ]
+            }
+          },
           'less-loader',
         ]
       },
