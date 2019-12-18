@@ -1,8 +1,10 @@
 // 这是 node.js 的 path 模块
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const optimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-const htmlWebpackPlugin = require('html-webpack-plugin')
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+// 新版本（2019.5.29）要这样引入
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
   entry: {
@@ -72,13 +74,13 @@ module.exports = {
       filename: '[name]_[contenthash:8].css'
     }),
 
-    new optimizeCssAssetsPlugin({
+    new OptimizeCssAssetsPlugin({
       assetNameRegExp: /\.css$/g,
       cssProcessor: require('cssnano')
     }),
 
-    // 1个页面对应1个htmlWebpackPlugin，所以如果有多个，就需要写多个
-    new htmlWebpackPlugin({
+    // 1个页面对应1个 HtmlWebpackPlugin，所以如果有多个，就需要写多个
+    new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src/search.html'),
       filename: 'search.html',
       // 对应的 entry 指定的 chunk（包括 css/js），可以理解为这个入口使用到的 css/js
@@ -97,6 +99,8 @@ module.exports = {
         // 移除注释
         removeComments: true
       }
-    })
+    }),
+
+    new CleanWebpackPlugin()
   ]
 }
