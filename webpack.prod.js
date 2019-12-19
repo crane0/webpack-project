@@ -1,5 +1,6 @@
 // 这是 node.js 的 path 模块
 const path = require('path')
+const glob = require('glob')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -7,10 +8,50 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HTMLInlineCSSWebpackPlugin = require('html-inline-css-webpack-plugin').default
 
+const setMPA = () => {
+  const entry = {}
+  const htmlWebpackPlugins = []
+
+  // entryFiles ['F:/mycode/webpack-project/src/index/index.js','F:/mycode/webpack-project/src/search/index.js']
+  const entryFiles = glob.sync(path.join(__dirname, './src/*/index.js'))
+
+  // 这里完全也可以直接用 map，Object.keys只是更通用的写法，
+  // 假设 entry 只是有限的几个，不需要上面的遍历的话，那 entry 就是一个对象了。
+  Object.keys(entryFiles).map((index) => {
+    const entryFile = entryFiles[index]
+    // match 是一个数组，match[1] 就是()中匹配到的内容，也就是index.js所在的目录
+    const match = entryFile.match(/src\/(.*)\/index\.js/)
+    const pageName = match && match[1]
+
+    entry[pageName] = entryFile
+    htmlWebpackPlugins.push(
+      new HtmlWebpackPlugin({
+        template: path.join(__dirname, `src/${pageName}/index.html`),
+        filename: `${pageName}.html`,
+        chunks: [pageName],
+        inject: true,
+        minify: {
+          html5: true,
+          collapseWhitespace: true,
+          preserveLineBreaks: false,
+          minifyCSS: true,
+          minifyJS: true,
+          removeComments: true
+        }
+      })
+    )
+  })
+
+  return {
+    entry,
+    htmlWebpackPlugins
+  }
+}
+
+const { entry, htmlWebpackPlugins } = setMPA()
+
 module.exports = {
-  entry: {
-    search: './src/search.js',
-  },
+  entry: entry,
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name]_[chunkhash:8].js'
@@ -102,29 +143,27 @@ module.exports = {
     }),
 
     // 1个页面对应1个 HtmlWebpackPlugin，所以如果有多个，就需要写多个
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'src/search.html'),
-      filename: 'search.html',
-      // 对应的 entry 指定的 chunk（包括 css/js），可以理解为这个入口使用到的 css/js
-      chunks: ['search'],
-      // 将 chunk 自动插入
-      inject: true,
-      minify: {
-        html5: true,
-        // 去除空格
-        collapseWhitespace: true,
-        // 不保留换行符
-        preserveLineBreaks: false,
-        // 这2个是压缩一开始就内联在 html 中的 css/js，不是打包生成的 css/js
-        minifyCSS: true,
-        minifyJS: true,
-        // 移除注释
-        removeComments: true
-      }
-    }),
-
-    new HTMLInlineCSSWebpackPlugin(),
+    // new HtmlWebpackPlugin({
+    //   template: path.join(__dirname, 'src/search.html'),
+    //   filename: 'search.html',
+    //   // 对应的 entry 指定的 chunk（包括 css/js），可以理解为这个入口使用到的 css/js
+    //   chunks: ['search'],
+    //   // 将 chunk 自动插入
+    //   inject: true,
+    //   minify: {
+    //     html5: true,
+    //     // 去除空格
+    //     collapseWhitespace: true,
+    //     // 不保留换行符
+    //     preserveLineBreaks: false,
+    //     // 这2个是压缩一开始就内联在 html 中的 css/js，不是打包生成的 css/js
+    //     minifyCSS: true,
+    //     minifyJS: true,
+    //     // 移除注释
+    //     removeComments: true
+    //   }
+    // }),
 
     new CleanWebpackPlugin()
-  ]
+  ].concat(htmlWebpackPlugins).concat(new HTMLInlineCSSWebpackPlugin())
 }
