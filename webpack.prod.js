@@ -5,10 +5,10 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 // 新版本（2019.5.29）要这样引入
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const HTMLInlineCSSWebpackPlugin = require('html-inline-css-webpack-plugin').default
 
 module.exports = {
   entry: {
-    index: './src/index.js',
     search: './src/search.js',
   },
   output: {
@@ -122,6 +122,8 @@ module.exports = {
         removeComments: true
       }
     }),
+
+    new HTMLInlineCSSWebpackPlugin(),
 
     new CleanWebpackPlugin()
   ]
