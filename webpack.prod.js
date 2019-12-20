@@ -31,7 +31,7 @@ const setMPA = () => {
         template: path.join(__dirname, `src/${pageName}/index.html`),
         filename: `${pageName}.html`,
         // 对应的 entry 指定的 chunk（包括 css/js），可以理解为这个入口使用到的 css/js
-        chunks: [pageName],
+        chunks: ['vendors', 'commons', pageName],
         // 将 chunk 自动插入
         inject: true,
         minify: {
@@ -151,19 +151,50 @@ module.exports = {
     }),
 
     new CleanWebpackPlugin(),
-    new HtmlWebpackExternalsPlugin({
-      externals: [
-        {
-          module: 'react',
-          entry: 'https://unpkg.com/react@16.12.0/umd/react.development.js',
-          global: 'React',
+    // new HtmlWebpackExternalsPlugin({
+    //   externals: [
+    //     {
+    //       module: 'react',
+    //       entry: 'https://unpkg.com/react@16.12.0/umd/react.development.js',
+    //       global: 'React',
+    //     },
+    //     {
+    //       module: 'react-dom',
+    //       entry: 'https://unpkg.com/react-dom@16/umd/react-dom.development.js',
+    //       global: 'ReactDOM',
+    //     },
+    //   ],
+    // })
+  ].concat(htmlWebpackPlugins).concat(new HTMLInlineCSSWebpackPlugin()),
+
+  // optimization: {
+  //   splitChunks: {
+  //     cacheGroups: {
+  //       commons: {
+  //         test: /(react|react-dom)/,
+  //         name: 'vendors',
+  //         chunks: 'all'
+  //       },
+  //     }
+  //   }
+  // }
+  optimization: {
+    splitChunks: {
+      // 分离条件1，引用大小限制，0表示不限制
+      minSize: 0,
+      cacheGroups: {
+        commons: {
+          name: 'commons',
+          chunks: 'all',
+          // 分离条件2，引用次数限制
+          minChunks: 2
         },
-        {
-          module: 'react-dom',
-          entry: 'https://unpkg.com/react-dom@16/umd/react-dom.development.js',
-          global: 'ReactDOM',
+        vendors: {
+          test: /(react|react-dom)/,
+          name: 'vendors',
+          chunks: 'all'
         },
-      ],
-    })
-  ].concat(htmlWebpackPlugins).concat(new HTMLInlineCSSWebpackPlugin())
+      }
+    }
+  }
 }
