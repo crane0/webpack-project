@@ -7,6 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 // 新版本（2019.5.29）要这样引入
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HTMLInlineCSSWebpackPlugin = require('html-inline-css-webpack-plugin').default
+const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin')
 
 const setMPA = () => {
   const entry = {}
@@ -25,17 +26,24 @@ const setMPA = () => {
 
     entry[pageName] = entryFile
     htmlWebpackPlugins.push(
+      // 1个页面对应1个 HtmlWebpackPlugin
       new HtmlWebpackPlugin({
         template: path.join(__dirname, `src/${pageName}/index.html`),
         filename: `${pageName}.html`,
+        // 对应的 entry 指定的 chunk（包括 css/js），可以理解为这个入口使用到的 css/js
         chunks: [pageName],
+        // 将 chunk 自动插入
         inject: true,
         minify: {
           html5: true,
+          // 去除空格
           collapseWhitespace: true,
+          // 不保留换行符
           preserveLineBreaks: false,
+          // 压缩一开始就内联在 html 中的 css/js，不是打包生成的 css/js
           minifyCSS: true,
           minifyJS: true,
+          // 移除注释
           removeComments: true
         }
       })
@@ -142,28 +150,20 @@ module.exports = {
       cssProcessor: require('cssnano')
     }),
 
-    // 1个页面对应1个 HtmlWebpackPlugin，所以如果有多个，就需要写多个
-    // new HtmlWebpackPlugin({
-    //   template: path.join(__dirname, 'src/search.html'),
-    //   filename: 'search.html',
-    //   // 对应的 entry 指定的 chunk（包括 css/js），可以理解为这个入口使用到的 css/js
-    //   chunks: ['search'],
-    //   // 将 chunk 自动插入
-    //   inject: true,
-    //   minify: {
-    //     html5: true,
-    //     // 去除空格
-    //     collapseWhitespace: true,
-    //     // 不保留换行符
-    //     preserveLineBreaks: false,
-    //     // 这2个是压缩一开始就内联在 html 中的 css/js，不是打包生成的 css/js
-    //     minifyCSS: true,
-    //     minifyJS: true,
-    //     // 移除注释
-    //     removeComments: true
-    //   }
-    // }),
-
-    new CleanWebpackPlugin()
+    new CleanWebpackPlugin(),
+    new HtmlWebpackExternalsPlugin({
+      externals: [
+        {
+          module: 'react',
+          entry: 'https://unpkg.com/react@16.12.0/umd/react.development.js',
+          global: 'React',
+        },
+        {
+          module: 'react-dom',
+          entry: 'https://unpkg.com/react-dom@16/umd/react-dom.development.js',
+          global: 'ReactDOM',
+        },
+      ],
+    })
   ].concat(htmlWebpackPlugins).concat(new HTMLInlineCSSWebpackPlugin())
 }
