@@ -1,6 +1,7 @@
 // 这是 node.js 的 path 模块
 const path = require('path')
 const glob = require('glob')
+const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -64,7 +65,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name]_[chunkhash:8].js'
   },
-  mode: 'production',
+  mode: 'none',
   module: {
     rules: [
       {
@@ -165,6 +166,9 @@ module.exports = {
     //     },
     //   ],
     // })
+
+    // new webpack.optimize.ModuleConcatenationPlugin()
+
   ].concat(htmlWebpackPlugins).concat(new HTMLInlineCSSWebpackPlugin()),
 
   // optimization: {
