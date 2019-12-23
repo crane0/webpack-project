@@ -4,10 +4,10 @@ import './search.less'
 import logo from './assets/author-icon.png'
 
 class Search extends React.Component {
-  constructor() {
-    super(...arguments)
+  constructor(args) {
+    super(...args)
     this.state = {
-      Text: null
+      Text: null,
     }
   }
 
@@ -15,19 +15,18 @@ class Search extends React.Component {
   loadComponent() {
     import('./test').then((Text) => {
       this.setState({
-        Text: Text.default()
+        Text: Text.default(),
       })
     })
   }
+
   render() {
     const { Text } = this.state
     return (
       <div className="search-txt">
-        {
-          Text ? Text : null
-        }
+        {Text}
         search1 text 111
-        <img src={ logo } alt="" onClick={this.loadComponent.bind(this)}/>
+        <img src={logo} alt="" onClick={this.loadComponent.bind(this)} />
       </div>
     )
   }
@@ -35,5 +34,5 @@ class Search extends React.Component {
 
 ReactDOM.render(
   <Search />,
-  document.getElementById('root')
+  document.getElementById('root'),
 )

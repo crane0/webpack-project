@@ -1,3 +1,3 @@
-export function helloWebpack() {
+export default function helloWebpack() {
   return 'hello webpack'
 }

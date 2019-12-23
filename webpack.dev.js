@@ -36,15 +36,15 @@ const setMPA = () => {
           preserveLineBreaks: false,
           minifyCSS: true,
           minifyJS: true,
-          removeComments: true
-        }
-      })
+          removeComments: true,
+        },
+      }),
     )
   })
 
   return {
     entry,
-    htmlWebpackPlugins
+    htmlWebpackPlugins,
   }
 }
 
@@ -54,14 +54,14 @@ module.exports = {
   entry: entry,
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js'
+    filename: '[name].js',
   },
   mode: 'development',
   module: {
     rules: [
       {
-        test: /\.js$/,
-        use: 'babel-loader'
+        test: /\.(js|jsx)$/,
+        use: 'babel-loader',
       },
       {
         test: /\.less$/,
@@ -69,7 +69,7 @@ module.exports = {
           'style-loader',
           'css-loader',
           'less-loader',
-        ]
+        ],
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,

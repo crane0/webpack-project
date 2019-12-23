@@ -45,9 +45,9 @@ const setMPA = () => {
           minifyCSS: true,
           minifyJS: true,
           // 移除注释
-          removeComments: true
-        }
-      })
+          removeComments: true,
+        },
+      }),
     )
   })
 
@@ -69,10 +69,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        use: 'babel-loader'
+        test: /\.(js|jsx)$/,
+        use: [
+          'babel-loader',
+          'eslint-loader'
+        ]
       },
-      // 添加解析 css，是因为不止会写 less 
+      // 添加解析 css，是因为不止会写 less
       {
         test: /\.css$/,
         use: [
