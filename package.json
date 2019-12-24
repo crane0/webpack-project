@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack --watch",
     "build": "webpack --config webpack.prod.js",
+    "build:ssr": "webpack --config webpack.ssr.js",
     "dev": "webpack-dev-server --config webpack.dev.js --open"
   },
   "keywords": [],
@@ -29,6 +30,7 @@
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.17.0",
+    "express": "^4.17.1",
     "file-loader": "^5.0.2",
     "glob": "^7.1.6",
     "html-inline-css-webpack-plugin": "^1.8.0",

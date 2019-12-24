@@ -1,11 +1,16 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import './search.less'
-import logo from './assets/author-icon.png'
+// import React from 'react'
+// import './search.less'
+// import logo from './assets/author-icon.png'
+
+const React = require('react')
+const logo = require('./assets/author-icon.png');
+require('./search.less')
+
+console.log(logo)
 
 class Search extends React.Component {
-  constructor(args) {
-    super(...args)
+  constructor(props) {
+    super(props)
     this.state = {
       Text: null,
     }
@@ -32,7 +37,4 @@ class Search extends React.Component {
   }
 }
 
-ReactDOM.render(
-  <Search />,
-  document.getElementById('root'),
-)
+module.exports = <Search />
