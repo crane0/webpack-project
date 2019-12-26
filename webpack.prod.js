@@ -10,6 +10,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HTMLInlineCSSWebpackPlugin = require('html-inline-css-webpack-plugin').default
 // 用于分离公共资源
 const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin')
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 
 const setMPA = () => {
   const entry = {}
@@ -173,6 +174,7 @@ module.exports = {
 
     // 用于 scope hoisting
     // new webpack.optimize.ModuleConcatenationPlugin()
+    new FriendlyErrorsWebpackPlugin()
 
   ].concat(htmlWebpackPlugins).concat(new HTMLInlineCSSWebpackPlugin()),
 
@@ -194,5 +196,6 @@ module.exports = {
         },
       }
     }
-  }
+  },
+  // stats: 'errors-only'
 }
