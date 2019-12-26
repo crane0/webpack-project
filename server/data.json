@@ -1,0 +1,106 @@
+{
+    "code": "SUCCESS",
+    "data": {
+        "responseContext": {
+            "serviceTrackingParams": [
+                {
+                    "service": "CSI",
+                    "params": [
+                        {
+                            "key": "GetUnseenNotificationCount_rid",
+                            "value": "0xc10c8a9d7585905d"
+                        },
+                        {
+                            "key": "c",
+                            "value": "WEB"
+                        },
+                        {
+                            "key": "cver",
+                            "value": "2.20191219.03.01"
+                        },
+                        {
+                            "key": "yt_li",
+                            "value": "1"
+                        }
+                    ]
+                },
+                {
+                    "service": "GFEEDBACK",
+                    "params": [
+                        {
+                            "key": "country-type",
+                            "value": "B"
+                        },
+                        {
+                            "key": "e",
+                            "value": "23700246,23744176,23788839,23801129,23804281,23809316,23827263,23837040,23837993,23839597,23842630,23842986,23847144,23848795,23851877,23853886,23856652,23857949,23857998,23858315,23859802,23859863,23861041,23863493,23863824,23864805,23865480,23865771,23865771,23866964,23867375,3300105,3300130,3300161,3313321,3313649,3315531,3315772,3316343,3316377,3316461,9424416,9449243,9458112,9469036,9471239"
+                        },
+                        {
+                            "key": "logged_in",
+                            "value": "1"
+                        }
+                    ]
+                },
+                {
+                    "service": "GUIDED_HELP",
+                    "params": [
+                        {
+                            "key": "creator_channel_id",
+                            "value": "UCT0NUzWlXY7v4NP0rBc3C8w"
+                        },
+                        {
+                            "key": "logged_in",
+                            "value": "1"
+                        }
+                    ]
+                },
+                {
+                    "service": "ECATCHER",
+                    "params": [
+                        {
+                            "key": "client.name",
+                            "value": "WEB"
+                        },
+                        {
+                            "key": "client.version",
+                            "value": "2.20191219"
+                        },
+                        {
+                            "key": "innertube.build.changelist",
+                            "value": "286499528"
+                        },
+                        {
+                            "key": "innertube.build.experiments.source_version",
+                            "value": "286649966"
+                        },
+                        {
+                            "key": "innertube.build.label",
+                            "value": "youtube.ytfe.innertube_20191219_4_RC1"
+                        },
+                        {
+                            "key": "innertube.build.timestamp",
+                            "value": "1576807744"
+                        },
+                        {
+                            "key": "innertube.build.variants.checksum",
+                            "value": "fa8e85f92c0f79b84d2cfe6894b94cbb"
+                        },
+                        {
+                            "key": "innertube.run.job",
+                            "value": "ytfe-innertube-replica-only.ytfe"
+                        }
+                    ]
+                }
+            ]
+        },
+        "actions": [
+            {
+                "updateNotificationsUnseenCountAction": {
+                    "handlerData": "NOTIFICATION_ACTION_UPDATE_UNSEEN_COUNT",
+                    "unseenCount": 103,
+                    "timeoutMs": 1800000
+                }
+            }
+        ]
+    }
+}

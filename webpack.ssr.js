@@ -42,7 +42,7 @@ const setMPA = () => {
             minifyCSS: true,
             minifyJS: true,
             // 移除注释
-            removeComments: true,
+            // removeComments: true,
           },
         }),
       ) 
