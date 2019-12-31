@@ -24,7 +24,7 @@ const prodConfig = {
           global: 'ReactDOM',
         },
       ],
-    })
+    }),
   ],
   optimization: {
     splitChunks: {
@@ -35,10 +35,10 @@ const prodConfig = {
           name: 'commons',
           chunks: 'all',
           // 分离条件2，引用次数限制
-          minChunks: 2
+          minChunks: 2,
         },
-      }
-    }
+      },
+    },
   },
 };
 
