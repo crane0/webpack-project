@@ -2,13 +2,13 @@ const glob = require('glob');
 const path = require('path');
 const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 // cwd 表示运行该文件时，如果通过 process.chdir 设置了目录，那就使用这个目录
 // 将其他地方的 __dirname 修改为 projectRoot
-const projectRoot = process.cwd()
+const projectRoot = process.cwd();
 
 
 const setMPA = () => {

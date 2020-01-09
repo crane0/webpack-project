@@ -53,6 +53,7 @@
     "webpack-dev-server": "^3.9.0"
   },
   "dependencies": {
+    "async-validator": "^3.2.3",
     "lib-flexible": "^0.3.2"
   }
 }

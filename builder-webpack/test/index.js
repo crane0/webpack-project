@@ -1,4 +1,4 @@
-/* 
+/*
   package.json 中的 test 命令，默认会找根目录下的 /test/index.js
 */
 
