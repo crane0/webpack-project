@@ -11,6 +11,10 @@ const HTMLInlineCSSWebpackPlugin = require('html-inline-css-webpack-plugin').def
 // 用于分离公共资源
 const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin')
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
+// 分析速度
+const SpeedMeasureWebpackPlugin = require('speed-measure-webpack-plugin')
+
+const smp = new SpeedMeasureWebpackPlugin()
 
 const setMPA = () => {
   const entry = {}
@@ -61,7 +65,7 @@ const setMPA = () => {
 
 const { entry, htmlWebpackPlugins } = setMPA()
 
-module.exports = {
+module.exports = smp.wrap({
   entry: entry,
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -186,7 +190,9 @@ module.exports = {
     //   })
     // }    
 
-  ].concat(htmlWebpackPlugins).concat(new HTMLInlineCSSWebpackPlugin()),
+      // SpeedMeasureWebpackPlugin 和 HTMLInlineCSSWebpackPlugin 有冲突，不能一起用。
+  // ].concat(htmlWebpackPlugins).concat(new HTMLInlineCSSWebpackPlugin()),
+  ].concat(htmlWebpackPlugins),
 
   optimization: {
     splitChunks: {
@@ -208,4 +214,4 @@ module.exports = {
     }
   },
   // stats: 'errors-only'
-}
+})
