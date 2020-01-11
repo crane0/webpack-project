@@ -13,7 +13,8 @@ const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin')
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 // 分析速度
 const SpeedMeasureWebpackPlugin = require('speed-measure-webpack-plugin')
-
+// 分析体积
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const smp = new SpeedMeasureWebpackPlugin()
 
 const setMPA = () => {
@@ -188,7 +189,8 @@ module.exports = smp.wrap({
     //           process.exit(1);
     //       }
     //   })
-    // }    
+    // }
+    new BundleAnalyzerPlugin()
 
       // SpeedMeasureWebpackPlugin 和 HTMLInlineCSSWebpackPlugin 有冲突，不能一起用。
   // ].concat(htmlWebpackPlugins).concat(new HTMLInlineCSSWebpackPlugin()),
