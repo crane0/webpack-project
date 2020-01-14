@@ -15,6 +15,9 @@ const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 const SpeedMeasureWebpackPlugin = require('speed-measure-webpack-plugin')
 // 分析体积
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+// 并行压缩
+const TerserPlugin = require('terser-webpack-plugin');
+
 const smp = new SpeedMeasureWebpackPlugin()
 
 const setMPA = () => {
@@ -191,7 +194,7 @@ module.exports = smp.wrap({
     //       }
     //   })
     // }
-    new BundleAnalyzerPlugin()
+    // new BundleAnalyzerPlugin()
 
       // SpeedMeasureWebpackPlugin 和 HTMLInlineCSSWebpackPlugin 有冲突，不能一起用。
   // ].concat(htmlWebpackPlugins).concat(new HTMLInlineCSSWebpackPlugin()),
@@ -214,7 +217,12 @@ module.exports = smp.wrap({
           chunks: 'all'
         },
       }
-    }
+    },
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+      })
+    ],
   },
   // stats: 'errors-only'
 })
