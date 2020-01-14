@@ -78,6 +78,7 @@ module.exports = smp.wrap({
       {
         test: /\.js$/,
         use: [
+          'thread-loader',
           'babel-loader',
           'eslint-loader'
         ]
