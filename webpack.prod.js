@@ -17,10 +17,16 @@ const SpeedMeasureWebpackPlugin = require('speed-measure-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 // 并行压缩
 const TerserPlugin = require('terser-webpack-plugin')
+// 极大优化二次构建速度
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
+// 擦除无用的 css
+const PurgecssPlugin = require('purgecss-webpack-plugin')
 
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
+const PATHS = {
+  src: path.join(__dirname, 'src')
+}
 
 const smp = new SpeedMeasureWebpackPlugin()
 
@@ -186,6 +192,9 @@ module.exports = smp.wrap({
     //   ],
     // }),
     new HardSourceWebpackPlugin(),
+    new PurgecssPlugin({
+      paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
+    }),
 
     new webpack.DllReferencePlugin({
       context: __dirname,
