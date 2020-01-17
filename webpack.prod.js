@@ -16,7 +16,9 @@ const SpeedMeasureWebpackPlugin = require('speed-measure-webpack-plugin')
 // 分析体积
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 // 并行压缩
-const TerserPlugin = require('terser-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+
 
 const smp = new SpeedMeasureWebpackPlugin()
 
@@ -41,10 +43,11 @@ const setMPA = () => {
       new HtmlWebpackPlugin({
         template: path.join(__dirname, `src/${pageName}/index.html`),
         filename: `${pageName}.html`,
-        // 对应的 entry 指定的 chunk（包括 css/js），可以理解为这个入口使用到的 css/js
+        // 对应的 entry 指定的 chunk（包括 css/js），（也包括 splitChunks 分离出的）可以理解为这个入口使用到的 css/js
         chunks: ['vendors', 'commons', pageName],
         // 将 chunk 自动插入
         inject: true,
+        dllName: `./library.dll.js`,
         minify: {
           html5: true,
           // 去除空格
@@ -179,7 +182,18 @@ module.exports = smp.wrap({
     //       global: 'ReactDOM',
     //     },
     //   ],
-    // })
+    // }),
+    new webpack.DllReferencePlugin({
+      context: __dirname,
+      manifest: require('./dll/manifest.json'),
+    }),
+
+    new CopyWebpackPlugin([
+      {
+        from: path.join(__dirname, 'dll/library.dll.js'),
+        to: path.join(__dirname, 'dist'),
+      },
+    ]),
 
     // 用于 scope hoisting
     // new webpack.optimize.ModuleConcatenationPlugin()
