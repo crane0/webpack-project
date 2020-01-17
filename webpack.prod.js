@@ -17,6 +17,8 @@ const SpeedMeasureWebpackPlugin = require('speed-measure-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 // 并行压缩
 const TerserPlugin = require('terser-webpack-plugin')
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
+
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 
@@ -85,7 +87,7 @@ module.exports = smp.wrap({
         test: /\.js$/,
         use: [
           'thread-loader',
-          'babel-loader',
+          'babel-loader?cacheDirectory=true',
           'eslint-loader'
         ]
       },
@@ -183,6 +185,8 @@ module.exports = smp.wrap({
     //     },
     //   ],
     // }),
+    new HardSourceWebpackPlugin(),
+
     new webpack.DllReferencePlugin({
       context: __dirname,
       manifest: require('./dll/manifest.json'),
@@ -235,6 +239,7 @@ module.exports = smp.wrap({
     minimizer: [
       new TerserPlugin({
         parallel: true,
+        cache: true
       })
     ],
   },
