@@ -243,5 +243,16 @@ module.exports = smp.wrap({
       })
     ],
   },
+  resolve: {
+    alias: {
+      'react': path.resolve(__dirname, './node_modules/react/umd/react.production.min.js'),
+      'react-dom': path.resolve(__dirname, './node_modules/react-dom/umd/react-dom.production.min.js')
+    },
+    modules: [path.resolve(__dirname, 'node_modules')],
+    mainFields: ['main'],
+    // 也可指定多个后缀名，虽然更智能，但速度更慢。
+    // 个人感觉，如果文件名都写的规范和完整，其实最好。
+    extensions: ['.js']
+  }
   // stats: 'errors-only'
 })
