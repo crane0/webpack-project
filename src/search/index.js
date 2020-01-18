@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './search.less'
 import logo from './assets/author-icon.png'
+import demobg from './assets/demobg.jpg'
 
 class Search extends React.Component {
   constructor(props) {
@@ -26,6 +27,7 @@ class Search extends React.Component {
       <div className="search-txt">
         {Text}
         search1 text 111
+        <img src={demobg} />
         <img src={logo} alt="" onClick={this.loadComponent.bind(this)} />
       </div>
     )

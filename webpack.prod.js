@@ -141,13 +141,41 @@ module.exports = smp.wrap({
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
+        // use: [
+        //   {
+        //     loader: 'url-loader',
+        //     options: {
+        //       // 单位：字节
+        //       limit: 10240,
+        //       name: '[name]_[hash:8].[ext]'
+        //     }
+        //   }
+        // ]
+        // 新的压缩方式
         use: [
+          'file-loader',
           {
-            loader: 'url-loader',
+            loader: 'image-webpack-loader',
             options: {
-              // 单位：字节
-              limit: 10240,
-              name: '[name]_[hash:8].[ext]'
+              mozjpeg: {
+                progressive: true,
+                quality: 65
+              },
+              // optipng.enabled: false will disable optipng
+              optipng: {
+                enabled: false,
+              },
+              pngquant: {
+                quality: [0.65, 0.90],
+                speed: 4
+              },
+              gifsicle: {
+                interlaced: false,
+              },
+              // the webp option will enable WEBP
+              webp: {
+                quality: 75
+              }
             }
           }
         ]
